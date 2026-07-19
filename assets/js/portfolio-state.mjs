@@ -27,7 +27,7 @@ export function createInitialState({ search = "", storedLanguage = null, browser
     expandedEntry: normalizeEntryId(params.get("entry")),
     visibleCounts: {
       project: BATCH_SIZE,
-      note: BATCH_SIZE,
+      note: Number.POSITIVE_INFINITY,
     },
     scrollPositions: {
       project: 0,

@@ -56,17 +56,23 @@ test("filters the unified stream without mutating its entries", () => {
   assert.deepEqual(entries, snapshot);
 });
 
-test("progressive rendering respects the active mode count", () => {
-  const manyEntries = Array.from({ length: BATCH_SIZE + 2 }, (_, index) => ({
+test("works render progressively while every note is immediately available", () => {
+  const manyProjects = Array.from({ length: BATCH_SIZE + 2 }, (_, index) => ({
+    id: `project-${index}`,
+    type: "project",
+  }));
+  const manyNotes = Array.from({ length: BATCH_SIZE + 20 }, (_, index) => ({
     id: `note-${index}`,
     type: "note",
   }));
-  const state = createInitialState({ search: "?mode=notes", browserLanguage: "en" });
-  const loadedState = portfolioReducer(state, { type: "LOAD_MORE" });
+  const worksState = createInitialState({ browserLanguage: "en" });
+  const loadedWorksState = portfolioReducer(worksState, { type: "LOAD_MORE" });
+  const notesState = createInitialState({ search: "?mode=notes", browserLanguage: "en" });
 
-  assert.equal(getVisibleEntries(manyEntries, state).length, BATCH_SIZE);
-  assert.equal(getVisibleEntries(manyEntries, loadedState).length, BATCH_SIZE + 2);
-  assert.notEqual(loadedState, state);
+  assert.equal(getVisibleEntries(manyProjects, worksState).length, BATCH_SIZE);
+  assert.equal(getVisibleEntries(manyProjects, loadedWorksState).length, BATCH_SIZE + 2);
+  assert.equal(getVisibleEntries(manyNotes, notesState).length, manyNotes.length);
+  assert.notEqual(loadedWorksState, worksState);
 });
 
 test("mode changes preserve independent progress and scroll positions", () => {
@@ -82,7 +88,7 @@ test("mode changes preserve independent progress and scroll positions", () => {
 
   assert.equal(worksAgain.scrollPositions.project, 480);
   assert.equal(worksAgain.visibleCounts.project, BATCH_SIZE);
-  assert.equal(worksAgain.visibleCounts.note, BATCH_SIZE * 2);
+  assert.equal(worksAgain.visibleCounts.note, Number.POSITIVE_INFINITY);
   assert.equal(initial.scrollPositions.project, 0);
 });
 

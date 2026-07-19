@@ -29,7 +29,7 @@
             <source {% if include.priority_video %}src="{{ entry.video | escape }}"{% else %}data-src="{{ entry.video | escape }}"{% endif %} type="video/mp4">
           </video>
           {% if entry.preview %}
-            <img class="project-gallery__fallback" data-video-fallback data-src="{{ entry.preview | escape }}" alt="{{ title_en | escape }} cover" decoding="async" hidden>
+            <img class="project-gallery__fallback" data-video-fallback src="{{ entry.preview | escape }}" alt="{{ title_en | escape }} cover" loading="{% if include.priority_video %}eager{% else %}lazy{% endif %}" decoding="async"{% if include.priority_video %} fetchpriority="high"{% endif %}>
           {% endif %}
         </div>
       {% elsif entry.preview %}

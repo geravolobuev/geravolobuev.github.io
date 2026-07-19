@@ -12,7 +12,7 @@ test("generated homepage contains the unified portfolio contract", () => {
   assert.match(index, /data-entry-template/);
   assert.match(index, /data-end-message/);
   assert.doesNotMatch(index, /data-load-more/);
-  assert.match(index, /type="module" src="\/assets\/js\/portfolio\.js\?v=2"/);
+  assert.match(index, /type="module" src="\/assets\/js\/portfolio\.js\?v=3"/);
 });
 
 test("cards show titles without summaries and projects use scrub galleries", () => {
@@ -210,7 +210,8 @@ test("project videos are lazy until their cards become visible", () => {
   assert.match(index, /<video[^>]*preload="auto"[^>]*data-cover-video/);
   assert.doesNotMatch(index, /<video[^>]*poster=/);
   assert.equal(index.match(/data-video-fallback/g)?.length, 11);
-  assert.match(index, /data-video-fallback[^>]*data-src="https:\/\/www\.dropbox\.com/);
+  assert.equal(index.match(/data-video-fallback[^>]*src="https:\/\/www\.dropbox\.com/g)?.length, 11);
+  assert.doesNotMatch(index, /data-video-fallback[^>]*hidden/);
 });
 
 test("expanded notes expose a delegated close action", async () => {
@@ -227,10 +228,13 @@ test("expanded notes keep text close to the title and fix the close control in t
   assert.doesNotMatch(css, /\.entry-close\s*\{[^}]*margin:\s*0 0 var\(--entry-gap\)/s);
 });
 
-test("cover videos fall back to their preview only on playback failure", async () => {
+test("cover previews remain visible while full-quality videos load", async () => {
   const js = await readFile(new URL("../assets/js/portfolio.js", import.meta.url), "utf8");
+  const css = await readFile(new URL("../assets/css/portfolio.css", import.meta.url), "utf8");
   assert.match(js, /addEventListener\("error"[\s\S]*data-video-fallback/s);
-  assert.match(js, /fallback\.src\s*=\s*fallback\.dataset\.src/);
+  assert.match(js, /classList\.add\("is-ready"\)/);
+  assert.match(css, /\.project-gallery__frame\s*\{[^}]*position:\s*relative/s);
+  assert.match(css, /\.project-gallery__frame > img,[\s\S]*\.project-gallery__frame > video\s*\{[^}]*position:\s*absolute/s);
 });
 
 test("mobile keeps the desktop profile copy width", async () => {

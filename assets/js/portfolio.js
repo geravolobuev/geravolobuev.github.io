@@ -5,7 +5,7 @@ import {
   getVisibleEntries,
   portfolioReducer,
   serializeView,
-} from "./portfolio-state.mjs";
+} from "./portfolio-state.mjs?v=3";
 import { getGalleryIndex } from "./gallery-state.mjs";
 
 const copy = {
