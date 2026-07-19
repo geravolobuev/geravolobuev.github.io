@@ -1,6 +1,7 @@
 ---
 layout: project
 title: Код и дизайн трекер-приложений
+titleEn: "Tracker Apps: Design and Development"
 date: 2020-02-18 19:00:00 +0000
 video: https://www.dropbox.com/s/m9sl6dy3w92s8ch/brutalism.m4v?raw=1
 preview: https://www.dropbox.com/s/x8hdaew4ar4pyi8/preview.gif?raw=1

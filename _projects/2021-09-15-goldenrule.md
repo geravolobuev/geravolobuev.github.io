@@ -1,6 +1,7 @@
 ---
 layout: project
 title: Айдентика для стоматологии golden rule
+titleEn: "Golden Rule Dental Identity"
 date: 2021-09-15 09:00:00 +0000
 video: https://www.dropbox.com/s/kl295xkytbsdfye/goldenrule-reel.mov?raw=1
 preview: https://www.dropbox.com/s/dvaybjqbqvc9xn9/preview.gif?raw=1

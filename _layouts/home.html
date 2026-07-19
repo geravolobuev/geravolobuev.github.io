@@ -1,34 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     {% include meta.html %}
-    {% include styles.html %}
     {% seo %}
-</head>
+    <link rel="preconnect" href="https://www.dropbox.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.dropbox.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/assets/css/portfolio.css' | relative_url }}?v=12">
+    <script>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class="portfolio-page">
+    <a class="skip-link" href="#stream" data-copy-en="skip to the feed" data-copy-ru="перейти к ленте">skip to the feed</a>
 
-<body>
-        <div class="wrapper">
-        <main class="lowercased">
-<section>
-hi! 👋 i’m gera!</br>
-a multidisciplinary designer.
-currently 💼 at <a href="http://pirs5.ru">pirs 5</a>.</br>
-we can 🤝 via <a href="mailto: fromgayva@gmail.com">✉️</a> or <a href="http://www.linkedin.com/in/geravolobuev">linkedin</a>
-</section>
-</br>
+    <main class="portfolio-shell">
+      <aside class="profile" aria-labelledby="intro-title">
+        <div class="profile__copy">
+          <h1 class="profile__intro" id="intro-title">
+            <span data-copy-en="hi! 👋 i’m gera!" data-copy-ru="привет! 👋 я гера!">hi! 👋 i’m gera!</span><br>
+            <span data-copy-en="a multidisciplinary designer." data-copy-ru="мультидисциплинарный дизайнер.">a multidisciplinary designer.</span><br>
+            <span data-copy-en="I create ideas, brands, processes" data-copy-ru="я создаю идеи, бренды, процессы">I create ideas, brands, processes</span><br>
+            <span data-copy-en="and products to spark impactful" data-copy-ru="и продукты, которые создают яркий">and products to spark impactful</span><br>
+            <span data-copy-en="human experiences." data-copy-ru="и значимый человеческий опыт.">human experiences.</span><br>
+            <span data-copy-en="currently at" data-copy-ru="сейчас в">currently at</span>&nbsp;<a href="http://pirs5.ru/" rel="noreferrer">pirs 5</a>.
+          </h1>
 
-<section>
-🥂 selected clients</br>
-renaissance bank, gazprom, 
-tele2, adamas, vk, russian post, 
-mvideo-eldorado group, severstal
-</section>
+          <p class="profile__clients">
+            <span data-copy-en="🥂 selected clients" data-copy-ru="🥂 избранные клиенты">🥂 selected clients</span><br>
+            <span data-copy-en="renaissance bank, gazprom, t2," data-copy-ru="ренессанс Банк, газпром, т2,">renaissance bank, gazprom, t2,</span><br>
+            <span data-copy-en="avito, adamas, vk, russian post," data-copy-ru="авито, адамас, вк, почта россии,">avito, adamas, vk, russian post,</span><br>
+            <span data-copy-en="mvideo-eldorado group, severstal" data-copy-ru="мвидео-эльдорадо, северсталь.">mvideo-eldorado group, severstal</span>
+          </p>
 
-                <section class="posts">
-            {% include feed-posts.html %}
-                </section>
-            </main>
+          <p class="profile__contact">
+            <span data-copy-en="we can 🤝 via" data-copy-ru="можем 🤝 через">we can 🤝 via</span>&nbsp;<a href="mailto:fromgayva@gmail.com" aria-label="email">✉️</a>&nbsp;<span data-copy-en="or" data-copy-ru="или">or</span>&nbsp;<a href="http://www.linkedin.com/in/geravolobuev" rel="me noreferrer">linkedin</a>
+          </p>
         </div>
-</body>
 
+        <div class="profile__footer">
+          <button class="language-toggle" type="button" aria-label="switch language" data-aria-en="switch to russian" data-aria-ru="переключить на английский">
+            <span class="language-toggle__active">en</span><span aria-hidden="true"> / </span><span>ru</span>
+          </button>
+        </div>
+      </aside>
+
+      <section class="stream-panel" id="stream" aria-labelledby="stream-title" tabindex="-1">
+        <header class="stream-header">
+          <h2 class="visually-hidden" id="stream-title" data-mode-title>works</h2>
+          <nav class="mode-switcher" aria-label="portfolio mode" data-aria-en="portfolio mode" data-aria-ru="режим портфолио">
+            <button class="mode-button" type="button" data-mode="project" aria-pressed="true">
+              <span data-copy-en="💼 works" data-copy-ru="💼 работы">💼 works</span>
+            </button>
+            <button class="mode-button" type="button" data-mode="note" aria-pressed="false">
+              <span data-copy-en="✍🏻 notes" data-copy-ru="✍🏻 заметки">✍🏻 notes</span>
+            </button>
+          </nav>
+        </header>
+
+        {% assign entries = site.posts | concat: site.projects | sort: 'date' | reverse %}
+        {% assign priority_project_pending = true %}
+        <div class="entry-stream" data-entry-stream>
+          {% for entry in entries %}
+            {% if entry.collection == 'projects' and priority_project_pending %}
+              {% include portfolio-entry.html entry=entry priority_video=true %}
+              {% assign priority_project_pending = false %}
+            {% else %}
+              {% include portfolio-entry.html entry=entry %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="stream-end" data-stream-end>
+          <p data-end-message hidden data-copy-en="you reached the end." data-copy-ru="это конец ленты.">you reached the end.</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="{{ '/assets/js/portfolio.js' | relative_url }}?v=2"></script>
+  </body>
 </html>

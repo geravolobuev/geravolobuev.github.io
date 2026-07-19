@@ -1,14 +1,6 @@
 source "https://rubygems.org"
 
-gem "jekyll"
-gem "kramdown"
-gem "rouge"
-
-
-group :jekyll_plugins do
-  gem "jekyll-minifier"
- gem 'jekyll-sitemap'
-  gem 'jekyll-seo-tag'
-end
+gem "github-pages", "~> 232", group: :jekyll_plugins
+gem "nokogiri", "= 1.16.7"
 
 gem "webrick", "~> 1.7"

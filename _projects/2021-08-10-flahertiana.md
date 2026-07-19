@@ -1,6 +1,7 @@
 ---
 layout: project
 title: Ребрендинг IFF FLAHERTIANA 2021
+titleEn: "IFF Flahertiana 2021 Rebranding"
 date: 2020-08-10 19:00:00 +0000
 video: https://www.dropbox.com/s/cicxeeml0dyrl9b/flahertiana-logo.mp4?raw=1
 preview: https://www.dropbox.com/s/t96xba1gkfeyvxj/preview.jpg?raw=1

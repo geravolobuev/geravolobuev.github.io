@@ -1,6 +1,7 @@
 ---
 layout: project
 title: ребрендинг Cleverfish 
+titleEn: "Cleverfish Rebranding"
 date: 2021-11-18 09:00:00 +0000
 video: https://www.dropbox.com/s/dmkz6no4kp03xgw/cleverfish_animation_identity.mp4?raw=1
 preview: https://www.dropbox.com/s/vlc710c00ibpft1/preview.gif?raw=1

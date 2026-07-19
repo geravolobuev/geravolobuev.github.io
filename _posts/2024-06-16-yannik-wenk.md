@@ -1,11 +1,12 @@
 ---
 layout: post
 title: developing design systems in 3d
+titleEn: "Developing Design Systems in 3D"
+titleRu: "Разработка дизайн-систем в 3D"
+lang: en
 date: 2024-06-16 11:00:00 +0000
 description: lecture notes
 ---
-
-## Yannik Wenk – Developing Design Systems in 3D
 
 We can make sense of wildly different shapes, because we understand their function from experience.
 
@@ -14,7 +15,7 @@ Look at the world imagining that everything you see is an abstract shape with no
 “Every time a child encounters a table, it stores the experience.
 Based on similarities between the tables, the child’s brain will abstract the properties and functions to form the category ‘table’.”
 
-We look at the product the same way we look at the abstract shapes. Only through that we can find the emotional connection with shapes. 
+We look at the product the same way we look at the abstract shapes. Only through that we can find the emotional connection with shapes.
 
 If there is no product to show, use emotional abstraction.
 

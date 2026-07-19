@@ -1,0 +1,76 @@
+{% assign entry = include.entry %}
+{% if entry.collection == 'posts' %}
+  {% assign entry_type = 'note' %}
+{% else %}
+  {% assign entry_type = 'project' %}
+{% endif %}
+{% assign title_en = entry.titleEn | default: entry.title %}
+{% assign title_ru = entry.titleRu | default: entry.title %}
+{% if entry_type == 'note' %}
+  {% assign note_translation = site.note_translations | where: 'translation_of', entry.slug | first %}
+  {% assign source_lang = entry.lang | default: 'ru' %}
+{% endif %}
+<article
+  class="stream-entry stream-entry--{{ entry_type }}"
+  id="entry-{{ entry.slug }}"
+  data-entry
+  data-entry-id="{{ entry.slug }}"
+  data-entry-type="{{ entry_type }}"
+  data-entry-url="{{ entry.url | relative_url | escape }}"
+  data-has-title-translation="{% if entry.titleEn %}true{% else %}false{% endif %}"
+  data-has-body-translation="{% if entry_type == 'note' and note_translation %}true{% else %}false{% endif %}"
+  lang="{{ entry.lang | default: 'ru' | escape }}"
+>
+  {% if entry_type == 'project' %}
+    <div class="entry-hero project-gallery" data-project-gallery tabindex="0" role="region" aria-label="{{ title_en | escape }} media gallery">
+      {% if entry.video %}
+        <div class="project-gallery__frame" data-gallery-frame>
+          <video autoplay loop muted playsinline preload="{% if include.priority_video %}auto{% else %}none{% endif %}" data-cover-video aria-label="{{ title_en | escape }} cover">
+            <source {% if include.priority_video %}src="{{ entry.video | escape }}"{% else %}data-src="{{ entry.video | escape }}"{% endif %} type="video/mp4">
+          </video>
+          {% if entry.preview %}
+            <img class="project-gallery__fallback" data-video-fallback data-src="{{ entry.preview | escape }}" alt="{{ title_en | escape }} cover" decoding="async" hidden>
+          {% endif %}
+        </div>
+      {% elsif entry.preview %}
+        <div class="project-gallery__frame" data-gallery-frame>
+          <img src="{{ entry.preview | escape }}" alt="{{ title_en | escape }} cover" loading="lazy" decoding="async">
+        </div>
+      {% endif %}
+      <span class="project-gallery__counter" data-gallery-counter aria-live="polite">1 / 1</span>
+    </div>
+    <header class="entry-header">
+      <h3 class="entry-title" lang="en" data-copy-en="{{ title_en | escape }}" data-copy-ru="{{ entry.title | escape }}">{{ title_en | escape }}</h3>
+      <time class="entry-date" datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: "%Y.%m.%d" }}</time>
+    </header>
+    <template data-project-media-template>{{ entry.content }}</template>
+    <noscript><a href="{{ entry.url | relative_url | escape }}">open project</a></noscript>
+  {% else %}
+    <header class="entry-header">
+      <h3 class="entry-title" lang="en">
+        <a
+          class="entry-title-link"
+          href="{{ '/' | relative_url }}?mode=notes&amp;entry={{ entry.slug | url_encode }}"
+          data-note-link
+          aria-expanded="false"
+          aria-controls="entry-body-{{ entry.slug }}"
+          data-copy-en="{{ title_en | escape }}"
+          data-copy-ru="{{ title_ru | escape }}"
+        >{{ title_en | escape }}</a>
+      </h3>
+    </header>
+    <noscript><a href="{{ entry.url | relative_url | escape }}">open</a></noscript>
+
+    <div class="entry-body" id="entry-body-{{ entry.slug }}" data-entry-body hidden>
+      <button class="entry-close" type="button" data-note-close data-aria-en="close note" data-aria-ru="закрыть заметку" aria-label="close note">×</button>
+      <div data-entry-content-host></div>
+    </div>
+    {% if source_lang == 'en' %}
+      <template data-entry-template data-language="ru"><div class="entry-content" lang="ru">{{ note_translation.content }}<time class="entry-date entry-date--note" datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: "%Y.%m.%d" }}</time></div></template>
+      <template data-entry-template data-language="en"><div class="entry-content" lang="en">{{ entry.content }}<time class="entry-date entry-date--note" datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: "%Y.%m.%d" }}</time></div></template>
+    {% else %}
+      <template data-entry-template data-language="ru"><div class="entry-content" lang="ru">{{ entry.content }}<time class="entry-date entry-date--note" datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: "%Y.%m.%d" }}</time></div></template>
+      <template data-entry-template data-language="en"><div class="entry-content" lang="en">{{ note_translation.content }}<time class="entry-date entry-date--note" datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: "%Y.%m.%d" }}</time></div></template>
+    {% endif %}
+  {% endif %}
+</article>

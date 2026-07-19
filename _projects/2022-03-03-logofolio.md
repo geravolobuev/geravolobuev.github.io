@@ -1,6 +1,7 @@
 ---
 layout: project
 title: logofolio 21-22
+titleEn: "Logofolio 21–22"
 date: 2022-03-03 09:00:00 +0000
 video: https://www.dropbox.com/s/n4kaqp5k3jgch2s/video.mp4?raw=1
 preview: https://www.dropbox.com/s/drz487ltl8uxd9m/preview.gif?raw=1

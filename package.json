@@ -1,0 +1,11 @@
+{
+  "name": "geravolobuev-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:coverage": "node --experimental-test-coverage --test test/*.test.mjs",
+    "test:site": "bundle exec jekyll build --disable-disk-cache && node --test test/*.integration.mjs",
+    "verify": "npm test && npm run test:site"
+  }
+}
