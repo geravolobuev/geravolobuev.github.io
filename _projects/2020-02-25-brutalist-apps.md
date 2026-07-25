@@ -1,5 +1,6 @@
 ---
 layout: project
+published: false
 title: Код и дизайн трекер-приложений
 titleEn: "Tracker Apps: Design and Development"
 date: 2020-02-18 19:00:00 +0000

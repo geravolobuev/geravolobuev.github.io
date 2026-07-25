@@ -1,5 +1,6 @@
 ---
 layout: project
+published: false
 title: обложка книги "типографика"
 titleEn: V. Laptev "Typography" book soft/hardcover
 date: 2020-07-06 02:00:00 +0000

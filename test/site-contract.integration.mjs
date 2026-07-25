@@ -18,13 +18,18 @@ test("generated homepage contains the unified portfolio contract", () => {
 test("cards show titles without summaries and projects use scrub galleries", () => {
   assert.doesNotMatch(index, /class="entry-summary"/);
   assert.doesNotMatch(index, /scented candles branding/i);
+  assert.doesNotMatch(index, /tracker apps: design and development/i);
+  assert.doesNotMatch(index, /typography.*book soft\/hardcover/i);
   assert.match(index, /data-project-gallery/);
   assert.match(index, /data-project-media-template/);
 
   const projects = (index.match(/<article[\s\S]*?<\/article>/g) ?? [])
     .filter((article) => article.includes('data-entry-type="project"'));
-  assert.equal(projects.length, 11);
-  projects.forEach((project) => assert.doesNotMatch(project, /data-entry-toggle/));
+  assert.equal(projects.length, 9);
+  projects.forEach((project) => {
+    assert.doesNotMatch(project, /data-entry-toggle/);
+    assert.match(project, /data-cover-video/);
+  });
 });
 
 test("homepage preserves the bilingual about copy, authored line breaks, and contact order", () => {
@@ -152,7 +157,7 @@ test("gallery reset and near-viewport preloading are wired", async () => {
 });
 
 test("every remaining card has an authored English title", () => {
-  assert.equal(index.match(/data-has-title-translation="true"/g)?.length, 72);
+  assert.equal(index.match(/data-has-title-translation="true"/g)?.length, 70);
   assert.doesNotMatch(index, /data-has-title-translation="false"/);
 });
 
@@ -200,17 +205,18 @@ test("note sources and translations satisfy the bilingual content contract", asy
 });
 
 test("all existing projects and notes are represented", () => {
-  assert.equal(index.match(/data-entry-type="project"/g)?.length, 11);
+  assert.equal(index.match(/data-entry-type="project"/g)?.length, 9);
   assert.equal(index.match(/data-entry-type="note"/g)?.length, 61);
 });
 
 test("project videos are lazy until their cards become visible", () => {
-  assert.equal(index.match(/<source data-src=/g)?.length, 10);
+  assert.equal(index.match(/<source data-src=/g)?.length, 8);
   assert.equal(index.match(/<source src="https:\/\/www\.dropbox\.com/g)?.length, 1);
   assert.match(index, /<video[^>]*preload="auto"[^>]*data-cover-video/);
   assert.doesNotMatch(index, /<video[^>]*poster=/);
-  assert.equal(index.match(/data-video-fallback/g)?.length, 11);
-  assert.equal(index.match(/data-video-fallback[^>]*src="https:\/\/www\.dropbox\.com/g)?.length, 11);
+  assert.doesNotMatch(index, /<source[^>]*type="video\/mp4"/);
+  assert.equal(index.match(/data-video-fallback/g)?.length, 9);
+  assert.equal(index.match(/data-video-fallback[^>]*src="https:\/\/www\.dropbox\.com/g)?.length, 9);
   assert.doesNotMatch(index, /data-video-fallback[^>]*hidden/);
 });
 

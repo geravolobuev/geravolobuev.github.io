@@ -26,7 +26,7 @@
       {% if entry.video %}
         <div class="project-gallery__frame" data-gallery-frame>
           <video autoplay loop muted playsinline preload="{% if include.priority_video %}auto{% else %}none{% endif %}" data-cover-video aria-label="{{ title_en | escape }} cover">
-            <source {% if include.priority_video %}src="{{ entry.video | escape }}"{% else %}data-src="{{ entry.video | escape }}"{% endif %} type="video/mp4">
+            <source {% if include.priority_video %}src="{{ entry.video | escape }}"{% else %}data-src="{{ entry.video | escape }}"{% endif %}>
           </video>
           {% if entry.preview %}
             <img class="project-gallery__fallback" data-video-fallback src="{{ entry.preview | escape }}" alt="{{ title_en | escape }} cover" loading="{% if include.priority_video %}eager{% else %}lazy{% endif %}" decoding="async"{% if include.priority_video %} fetchpriority="high"{% endif %}>
