@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        document.documentElement.classList.add("reveal-ready");
+        window.__revealFallback = window.setTimeout(function () {
+            document.documentElement.classList.remove("reveal-ready");
+        }, 4000);
+    </script>
     {% include meta.html %}
     {% include styles.html %}
     {% seo %}
@@ -9,15 +15,15 @@
 <body>
         <div class="wrapper">
         <main class="lowercased">
-<section>
+<section data-reveal>
 hi! <span class="emoji emoji--wave">👋</span> i’m gera!</br>
 a multidisciplinary designer.
-currently <span class="emoji emoji--work">💼</span> at <a href="http://pirs5.ru">pirs 5</a>.</br>
-we can <span class="emoji emoji--handshake">🤝</span> via <a href="mailto: fromgayva@gmail.com"><span class="emoji emoji--mail">✉️</span></a> or <a href="http://www.linkedin.com/in/geravolobuev">linkedin</a>
+currently <span class="emoji emoji--work">💼</span> at <a href="http://pirs5.ru" data-ui-sound="external">pirs 5</a>.</br>
+we can <span class="emoji emoji--handshake">🤝</span> via <a href="mailto:fromgayva@gmail.com" data-ui-sound="mail"><span class="emoji emoji--mail">✉️</span></a> or <a href="http://www.linkedin.com/in/geravolobuev" data-ui-sound="external">linkedin</a>
 </section>
 </br>
 
-<section>
+<section data-reveal>
 <span class="emoji emoji--toast">🥂</span> selected clients</br>
 renaissance bank, gazprom, 
 tele2, adamas, vk, russian post, 
@@ -28,7 +34,17 @@ mvideo-eldorado group, severstal
             {% include feed-posts.html %}
                 </section>
             </main>
+            <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="true">sound: on</button>
         </div>
+        <div class="note-modal" data-note-modal role="dialog" aria-modal="true" aria-labelledby="note-modal-title" hidden>
+                <button class="note-modal__close" type="button" data-note-modal-close aria-label="close note">×</button>
+                <div class="note-modal__panel" data-note-modal-panel>
+                        <h2 class="visually-hidden" id="note-modal-title" data-note-modal-title>note</h2>
+                        <div class="note-modal__content" data-note-modal-content></div>
+                </div>
+        </div>
+        <script type="module" src="/assets/js/ui-sound.mjs?v=20260726-6"></script>
+        <script type="module" src="/assets/js/site-interactions.mjs?v=20260726-6"></script>
 </body>
 
 </html>

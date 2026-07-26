@@ -27,5 +27,5 @@ test("emoji motion is transform-only and respects reduced-motion preferences", (
 test("homepage uses compact leading and omits untitled feed entries", () => {
   assert.match(styles, /main\s*\{[^}]*line-height:\s*0\.9\s*;/s);
   assert.doesNotMatch(styles, /@media only screen and \(max-width: 600px\)[\s\S]*?main\s*\{[^}]*line-height:\s*2\.3rem/s);
-  assert.match(feed, /\{%\s*if post\.title and post\.title != empty\s*%\}[\s\S]*<li>/);
+  assert.match(feed, /\{%\s*if post\.title and post\.title != empty\s*%\}[\s\S]*<li(?:\s|>)/);
 });
