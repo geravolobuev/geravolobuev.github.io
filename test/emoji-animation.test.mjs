@@ -7,16 +7,17 @@ const feed = await readFile(new URL("../_includes/feed-posts.html", import.meta.
 const styles = await readFile(new URL("../_includes/styles.html", import.meta.url), "utf8");
 
 test("homepage emojis have meaning-specific animation hooks", () => {
-  for (const name of ["wave", "work", "handshake", "mail", "toast"]) {
+  for (const name of ["wave", "handshake", "mail", "toast"]) {
     assert.match(home, new RegExp(`class="emoji emoji--${name}"`));
   }
+  assert.doesNotMatch(home, /💼|emoji--work/);
   assert.match(feed, /class="emoji emoji--write"/);
 });
 
 test("emoji motion is transform-only and respects reduced-motion preferences", () => {
   const emojiStyles = styles.match(/\.emoji \{[\s\S]*?@media \(prefers-reduced-motion: reduce\)/)?.[0] ?? "";
 
-  for (const name of ["wave", "work", "handshake", "mail", "toast", "write"]) {
+  for (const name of ["wave", "handshake", "mail", "toast", "write"]) {
     assert.match(styles, new RegExp(`@keyframes emoji-${name}`));
     assert.match(styles, new RegExp(`\\.emoji--${name}\\s*\\{[^}]*animation:`, "s"));
   }
