@@ -74,7 +74,7 @@ color: black;
     main {
     padding: 1rem;
 font-size: 7vw;
-line-height: 8vw;
+line-height: 0.9;
     }
 
 	.blog-post {
@@ -169,6 +169,99 @@ box-shadow: 10px 5px 5px blue;
             text-transform: lowercase;
     }
 
+    .emoji {
+            display: inline-block;
+            transform: translateZ(0);
+    }
+
+    .emoji--wave {
+            transform-origin: 70% 75%;
+            animation: emoji-wave 2.6s ease-in-out infinite;
+    }
+
+    .emoji--work {
+            transform-origin: 50% 85%;
+            animation: emoji-work 3.1s ease-in-out infinite;
+    }
+
+    .emoji--handshake {
+            transform-origin: 50% 60%;
+            animation: emoji-handshake 2.9s ease-in-out infinite;
+    }
+
+    .emoji--mail {
+            transform-origin: 50% 50%;
+            animation: emoji-mail 3.3s ease-in-out infinite;
+    }
+
+    .emoji--toast {
+            transform-origin: 60% 80%;
+            animation: emoji-toast 3s ease-in-out infinite;
+    }
+
+    .emoji--write {
+            transform-origin: 80% 80%;
+            animation: emoji-write 2.8s ease-in-out infinite;
+    }
+
+    @keyframes emoji-wave {
+            0%, 55%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(16deg); }
+            20% { transform: rotate(-10deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-6deg); }
+            48% { transform: rotate(8deg); }
+    }
+
+    @keyframes emoji-work {
+            0%, 48%, 100% { transform: translateY(0) rotate(0deg); }
+            10% { transform: translateY(-0.12em) rotate(-5deg); }
+            20% { transform: translateY(0) rotate(5deg); }
+            30% { transform: translateY(-0.05em) rotate(-3deg); }
+            40% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes emoji-handshake {
+            0%, 55%, 100% { transform: translateX(0) rotate(0deg) scale(1); }
+            12% { transform: translateX(0.06em) rotate(2deg) scale(1.03); }
+            24% { transform: translateX(-0.06em) rotate(-2deg) scale(1.03); }
+            36% { transform: translateX(0.04em) rotate(1deg) scale(1.02); }
+            48% { transform: translateX(0) rotate(0deg) scale(1); }
+    }
+
+    @keyframes emoji-mail {
+            0%, 55%, 100% { transform: translate(0, 0) rotate(0deg); }
+            12% { transform: translate(0.08em, -0.06em) rotate(-7deg); }
+            24% { transform: translate(0.18em, -0.14em) rotate(-4deg); }
+            38% { transform: translate(0.07em, -0.05em) rotate(-2deg); }
+            48% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes emoji-toast {
+            0%, 58%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(0.04em, -0.03em) rotate(-10deg); }
+            20% { transform: translate(-0.03em, 0) rotate(8deg); }
+            30% { transform: translate(0.02em, -0.02em) rotate(-6deg); }
+            40% { transform: translate(0, 0) rotate(4deg); }
+            50% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes emoji-write {
+            0%, 58%, 100% { transform: translateX(0) rotate(0deg); }
+            10% { transform: translateX(0.08em) rotate(-3deg); }
+            20% { transform: translateX(-0.04em) rotate(2deg); }
+            30% { transform: translateX(0.09em) rotate(-3deg); }
+            40% { transform: translateX(-0.03em) rotate(2deg); }
+            50% { transform: translateX(0) rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+            .emoji {
+                    animation: none !important;
+                    transform: none !important;
+            }
+    }
+
     img, video {
     box-shadow: 10px 10px 10px lightgrey;
 border-radius: 45px;
@@ -190,7 +283,7 @@ display: grid
 }
     main {
             font-size: 1.9rem;
-    line-height: 2.3rem;
+    line-height: 0.9;
             position: relative;
     z-index: 10;
     padding: 2rem;
