@@ -8,33 +8,26 @@ const styles = await readFile(new URL("../_includes/styles.html", import.meta.ur
 const controller = await readFile(new URL("../assets/js/ui-sound.mjs", import.meta.url), "utf8");
 const engineSource = await readFile(new URL("../assets/js/ui-sound-engine.mjs", import.meta.url), "utf8");
 
-test("sound has an accessible persistent on/off control", () => {
-  assert.match(home, /data-sound-toggle/);
-  assert.match(home, /aria-pressed="true"/);
-  assert.match(home, />sound:\s*on</);
+test("sound remains automatic without visible sound UI", () => {
+  assert.doesNotMatch(home, /data-sound-toggle|sound:\s*(?:on|off)/);
   assert.match(home, /<script type="module" src="\/assets\/js\/ui-sound\.mjs\?v=[^"]+"><\/script>/);
-  assert.match(controller, /localStorage/);
-  assert.match(controller, /data-sound-toggle/);
-  assert.match(controller, /aria-pressed/);
-  assert.match(controller, /sound:\s*\$\{soundEnabled \? "on" : "off"\}/);
+  assert.doesNotMatch(controller, /localStorage|data-sound-toggle|aria-pressed|soundEnabled/);
   assert.match(controller, /hasUnlocked/);
-  assert.match(controller, /if \(!soundEnabled \|\| !hasUnlocked\) return/);
+  assert.match(controller, /if \(!hasUnlocked\) return/);
   assert.match(controller, /engine\.unlock\(\)/);
   assert.match(controller, /addEventListener\("pointerdown"[\s\S]*capture:\s*true/);
   assert.match(controller, /addEventListener\("keydown"[\s\S]*capture:\s*true/);
   assert.match(controller, /removeEventListener\("pointerdown"/);
-  assert.match(controller, /closest\?\.\("\[data-sound-toggle\]"\)/);
   assert.match(controller, /dataset\.soundActive/);
   assert.match(controller, /dataset\.soundLastCue/);
   assert.match(controller, /dataset\.soundReady/);
   assert.match(controller, /\.\/ui-sound-engine\.mjs\?v=[^"]+/);
-  assert.match(styles, /\.sound-toggle/);
-  assert.match(styles, /\.sound-toggle:focus-visible/);
+  assert.doesNotMatch(styles, /\.sound-toggle/);
 });
 
 test("links map to distinct hover and activation cues", () => {
   assert.match(home, /href="mailto:[^"]+"[^>]*data-ui-sound="mail"/);
-  assert.match(home, /href="http:\/\/pirs5\.ru"[^>]*data-ui-sound="external"/);
+  assert.match(home, /href="http:\/\/pirs5\.ru\/?"[^>]*data-ui-sound="external"/);
   assert.match(home, /href="http:\/\/www\.linkedin\.com\/in\/geravolobuev"[^>]*data-ui-sound="external"/);
   assert.match(feed, /data-ui-sound="note"/);
   assert.match(controller, /pointerover/);

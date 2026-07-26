@@ -29,3 +29,13 @@ test("homepage uses compact leading and omits untitled feed entries", () => {
   assert.doesNotMatch(styles, /@media only screen and \(max-width: 600px\)[\s\S]*?main\s*\{[^}]*line-height:\s*2\.3rem/s);
   assert.match(feed, /\{%\s*if post\.title and post\.title != empty\s*%\}[\s\S]*<li(?:\s|>)/);
 });
+
+test("homepage preserves the current-role line and lets clients wrap naturally", () => {
+  assert.match(home, /a multidisciplinary designer\.<br>\s*currently/);
+  assert.match(
+    home,
+    /selected clients<\/br>\s*renaissance bank, gazprom, t2, avito, adamas, vk, russian post, mvideo-eldorado group, severstal/,
+  );
+  assert.doesNotMatch(home, /t2,<br>|russian post,<br>/);
+  assert.doesNotMatch(home, /\btele2\b/);
+});

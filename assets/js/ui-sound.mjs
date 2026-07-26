@@ -1,34 +1,19 @@
-import { createUiSoundEngine } from "./ui-sound-engine.mjs?v=20260726-6";
+import { createUiSoundEngine } from "./ui-sound-engine.mjs?v=20260726-7";
 
 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
 const engine = createUiSoundEngine(AudioContextClass);
-const soundToggle = document.querySelector("[data-sound-toggle]");
-const preferenceKey = "portfolio-ui-sound";
 let lastHoverAt = 0;
 let lastActivationAt = 0;
 let lastActivationTarget;
 let hasUnlocked = false;
 let unlockPromise;
-let soundEnabled = true;
 
 document.documentElement.dataset.soundReady = "true";
 
-try {
-  soundEnabled = localStorage.getItem(preferenceKey) !== "off";
-} catch {
-  soundEnabled = true;
-}
-
 const cueFor = (target) => target?.dataset.uiSound || "external";
 
-const updateSoundToggle = () => {
-  if (!soundToggle) return;
-  soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-  soundToggle.textContent = `sound: ${soundEnabled ? "on" : "off"}`;
-};
-
 const playCue = (cueName) => {
-  if (!soundEnabled || !hasUnlocked) return;
+  if (!hasUnlocked) return;
   document.documentElement.dataset.soundLastCue = cueName;
   engine.play(cueName);
 };
@@ -47,8 +32,6 @@ const ensureUnlocked = () => {
 };
 
 const unlockSound = async (event) => {
-  if (!soundEnabled) return;
-  if (event.target.closest?.("[data-sound-toggle]")) return;
   if (!(await ensureUnlocked())) return;
   document.removeEventListener("pointerdown", unlockSound, true);
   document.removeEventListener("keydown", unlockSound, true);
@@ -61,7 +44,7 @@ document.addEventListener("pointerdown", unlockSound, { capture: true });
 document.addEventListener("keydown", unlockSound, { capture: true });
 
 document.addEventListener("pointerover", (event) => {
-  if (!soundEnabled || !hasUnlocked) return;
+  if (!hasUnlocked) return;
   const target = event.target.closest?.("[data-ui-sound]");
   if (!target || target.contains(event.relatedTarget)) return;
 
@@ -72,7 +55,7 @@ document.addEventListener("pointerover", (event) => {
 });
 
 document.addEventListener("focusin", (event) => {
-  if (!soundEnabled || !hasUnlocked) return;
+  if (!hasUnlocked) return;
   if (event.target.matches?.("[data-ui-sound]")) {
     playCue("hover");
   }
@@ -80,7 +63,7 @@ document.addEventListener("focusin", (event) => {
 
 document.addEventListener("pointerdown", async (event) => {
   const target = event.target.closest?.("[data-ui-sound]");
-  if (soundEnabled && target && await ensureUnlocked()) {
+  if (target && await ensureUnlocked()) {
     playCue(cueFor(target));
     lastActivationTarget = target;
     lastActivationAt = Date.now();
@@ -89,25 +72,7 @@ document.addEventListener("pointerdown", async (event) => {
 
 document.addEventListener("click", async (event) => {
   const target = event.target.closest?.("[data-ui-sound]");
-  if (!soundEnabled || !target || !(await ensureUnlocked())) return;
+  if (!target || !(await ensureUnlocked())) return;
   if (target === lastActivationTarget && Date.now() - lastActivationAt < 500) return;
   playCue(cueFor(target));
 });
-
-soundToggle?.addEventListener("click", async () => {
-  soundEnabled = !soundEnabled;
-  try {
-    localStorage.setItem(preferenceKey, soundEnabled ? "on" : "off");
-  } catch {
-    // The control still works for this visit when storage is unavailable.
-  }
-  updateSoundToggle();
-
-  if (soundEnabled && await ensureUnlocked()) {
-    document.removeEventListener("pointerdown", unlockSound, true);
-    document.removeEventListener("keydown", unlockSound, true);
-    playCue("enter");
-  }
-});
-
-updateSoundToggle();
